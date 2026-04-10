@@ -1,19 +1,18 @@
-import allure
 import pytest
 from selenium import webdriver
-
-@allure.step('Открываем браузер Firefox')
-def launch_browser():
-    driver = webdriver.Firefox()
-    driver.maximize_window()
-    return driver
-
-@allure.step('Закрываем браузер')
-def close_browser(driver):
-    driver.quit()
+from urls import Urls
 
 @pytest.fixture
-def driver():
-    driver = launch_browser()
+def driver():   
+    
+    driver = webdriver.Firefox()
+    driver.maximize_window()
+
     yield driver
-    close_browser(driver)
+    driver.quit()
+    
+    
+@pytest.fixture
+def open_main_page(driver):
+    driver.get(Urls.BASE_URL)
+    return driver
